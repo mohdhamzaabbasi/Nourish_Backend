@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
+console.log("Loaded MONGO_URI:", process.env.MONGO_URI); // Debugging
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const axios = require('axios');
 const VERIFY_TOKEN = "my_nourish"; // Same token used in Meta Webhook setup
-const token = 'EAAIcsyXdrwsBO8ZAgrXF7q1jRSLT016bYMLLFjfUIJ7oRvc1ZCN2OFDBJEjO504pnADzmmzBgFy5SfVcEJM2EAWQvGR7A7ZB1SrwDQpHGzmztrUOkBMAulkZCryJemzGv0bl3qz4Fa3YBJd0M7RgWk2PSfI4LYHci438uktFtPU6MwbImj2OQhNtreorgRSzL81fZBrbtHUtSbYLFk0CJTSNrmL4ZD'; // Your WhatsApp Business API access token
+const token = process.env.token;
 const phoneNumberId = '531391063399476'; // Your phone number ID from Meta
 const url = `https://graph.facebook.com/v16.0/${phoneNumberId}/messages`;
 app.use(express.json());
@@ -27,7 +30,7 @@ app.post('/webhook', async (req, res) => {
 
     if (req.body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
         const number = req.body.entry[0].changes[0].value.messages[0].from;
-        const reqq = await axios.post('http://192.168.129.128:8080/get-requests', {
+        const reqq = await axios.post('http://192.168.59.128:8080/get-requests', {
           number: number
         });
         console.log("#########################################");
@@ -49,7 +52,7 @@ app.post('/webhook', async (req, res) => {
 
         try {
             // Send the message to the /chat API to get food recommendations
-            const chatResponse = await axios.post("http://192.168.129.128:8080/chat", { message });
+            const chatResponse = await axios.post("http://192.168.59.128:8080/chat", { message });
 
             const recommendedFoods = chatResponse.data; // Get response from model
             
@@ -68,7 +71,7 @@ app.post('/webhook', async (req, res) => {
             await axios.post(url, data, { headers });
 
             try {
-                const response = await axios.post('http://192.168.129.128:8080/save-request', {
+                const response = await axios.post('http://192.168.59.128:8080/save-request', {
                   number, // Sending username as part of the request body
                   message_f,
                 });
@@ -89,8 +92,8 @@ app.post('/webhook', async (req, res) => {
     res.sendStatus(200);
 });
 
-
-app.listen(8080, () => console.log("🚀 Webhook server running on port 8080"));
+const PORT=process.env.PORT || 8080;
+app.listen(PORT, () => console.log("🚀 Webhook server running on port 8080"));
 
 const User = require('./models/User');
 const mongoose = require('mongoose');
@@ -98,7 +101,6 @@ app.use(express.json());
   const cors = require("cors");
   const Together = require("together-ai");
   
-  const PORT = 5000;
   const API_KEY = 'bb8315f0403a1dc870b93a1cb678a2d9a12fcda4e7b82d02442207314b48a9bc';
   
   const together = new Together({ apiKey: API_KEY }); // Initialize Together API client
@@ -107,10 +109,7 @@ app.use(express.json());
   app.use(express.json());
 
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/nourish', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+mongoose.connect(process.env.MONGO_URI, {
   })
   .then(() => {
     console.log('Connected to MongoDB');
