@@ -42,7 +42,7 @@ app.post('/webhook', async (req, res) => {
         {
           history=history+reqq.data.requests[i]+", ";
         }
-        const message = `You are a nutritionist specialised at helping people to control their blood sugar level spike. So answer all the queries in the same manner. This is the user detail -->name = ${reqq.data.requests.fullName},  email = ${reqq.data.requests.email},  number = ${reqq.data.requests.number},  password = ${reqq.data.requests.password},  gender = ${reqq.data.requests.gender},  age = ${reqq.data.requests.age},  height = ${reqq.data.requests.height},  weight = ${reqq.data.requests.weight},  bmi = ${reqq.data.requests.bmi},  diabetes = ${reqq.data.requests.diabetes},  foodAllergies = ${reqq.data.requests.foodAllergies},  bloodPressure = ${reqq.data.requests.bloodPressure},  cholesterolLevels = ${reqq.data.requests.cholesterolLevels},  smokingHabit = ${reqq.data.requests.smokingHabit},  alcoholConsumption = ${reqq.data.requests.alcoholConsumption},  physicalActivity = ${reqq.data.requests.physicalActivity},  currentMedications = ${reqq.data.requests.currentMedications},  medicalHistory = ${reqq.data.requests.medicalHistory}, doctorsNotes = ${reqq.data.requests.doctorsNotes},  emergencyContact = ${reqq.data.requests.emergencyContact}.There is a chance that user has updated their personal info in past queries so consider that too while answering. ${history} ,And Right now answer this query -->${req.body.entry[0].changes[0].value.messages[0].text.body}`;
+        const message = `You are a nutritionist specialised at helping people to control their blood sugar level spike. So answer all the queries in the same manner. This is the user detail -->name = ${reqq.data.requests.fullName},  email = ${reqq.data.requests.email},  number = ${reqq.data.requests.number},  password = ${reqq.data.requests.password},city = ${reqq.data.requests.city}, state= ${reqq.data.requests.state},  gender = ${reqq.data.requests.gender},  age = ${reqq.data.requests.age},  height = ${reqq.data.requests.height},  weight = ${reqq.data.requests.weight},  bmi = ${reqq.data.requests.bmi},  diabetes = ${reqq.data.requests.diabetes},  foodAllergies = ${reqq.data.requests.foodAllergies},  bloodPressure = ${reqq.data.requests.bloodPressure},  cholesterolLevels = ${reqq.data.requests.cholesterolLevels},  smokingHabit = ${reqq.data.requests.smokingHabit},  alcoholConsumption = ${reqq.data.requests.alcoholConsumption},  physicalActivity = ${reqq.data.requests.physicalActivity},  currentMedications = ${reqq.data.requests.currentMedications},  medicalHistory = ${reqq.data.requests.medicalHistory}, doctorsNotes = ${reqq.data.requests.doctorsNotes},  emergencyContact = ${reqq.data.requests.emergencyContact}.There is a chance that user has updated their personal info in past queries so consider that too while answering. Do keep in mind the location of the user and recommend food according to location if asked. ${history} ,And Right now answer this query -->${req.body.entry[0].changes[0].value.messages[0].text.body}`;
         const message_f=req.body.entry[0].changes[0].value.messages[0].text.body;
 
       console.log(message);
@@ -171,6 +171,8 @@ app.post('/save-request', async (req, res) => {
             email,
             number,
             password,
+            city,
+            state,
             gender,
             age,
             height,
@@ -203,6 +205,8 @@ app.post('/save-request', async (req, res) => {
             email,
             number,
             password,
+            city,
+            state,
             gender,
             age,
             height,
