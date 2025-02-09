@@ -30,7 +30,7 @@ app.post('/webhook', async (req, res) => {
 
     if (req.body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
         const number = req.body.entry[0].changes[0].value.messages[0].from;
-        const reqq = await axios.post('http://192.168.59.128:8080/get-requests', {
+        const reqq = await axios.post('https://nourish-backend-h78c.onrender.com/get-requests', {
           number: number
         });
         console.log("#########################################");
@@ -52,7 +52,7 @@ app.post('/webhook', async (req, res) => {
 
         try {
             // Send the message to the /chat API to get food recommendations
-            const chatResponse = await axios.post("http://192.168.59.128:8080/chat", { message });
+            const chatResponse = await axios.post("https://nourish-backend-h78c.onrender.com/chat", { message });
 
             const recommendedFoods = chatResponse.data; // Get response from model
             
@@ -71,7 +71,7 @@ app.post('/webhook', async (req, res) => {
             await axios.post(url, data, { headers });
 
             try {
-                const response = await axios.post('http://192.168.59.128:8080/save-request', {
+                const response = await axios.post('https://nourish-backend-h78c.onrender.com/save-request', {
                   number, // Sending username as part of the request body
                   message_f,
                 });
