@@ -92,7 +92,7 @@ app.post('/webhook', async (req, res) => {
     res.sendStatus(200);
 });
 
-const PORT=process.env.PORT || 8080;
+const PORT=process.env.PORT || 8000;
 app.listen(PORT, () => console.log("🚀 Webhook server running on port 8080"));
 
 const User = require('./models/User');
