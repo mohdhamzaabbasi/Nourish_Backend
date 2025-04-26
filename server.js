@@ -12,7 +12,6 @@ app.use(express.json());
 
 // Verify Webhook (for the first time setup)
 app.get('/webhook', (req, res) => {
-    console.log("wjbieudweonndoi");
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
