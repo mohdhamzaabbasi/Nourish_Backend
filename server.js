@@ -100,7 +100,8 @@ app.use(express.json());
   const cors = require("cors");
   const Together = require("together-ai");
   
-  const API_KEY = 'bb8315f0403a1dc870b93a1cb678a2d9a12fcda4e7b82d02442207314b48a9bc';
+  //const API_KEY = 'bb8315f0403a1dc870b93a1cb678a2d9a12fcda4e7b82d02442207314b48a9bc';
+const API_KEY = '01325871b5acf5c8f735b65e6dbacc1a0314f22b25adf1db6939d2f5a9eb0eb4';
   
   const together = new Together({ apiKey: API_KEY }); // Initialize Together API client
   
